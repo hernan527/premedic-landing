@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <!-- SEO Meta description -->
     <meta name="description"   content="Premedic Medicina Privada, Amplia Cartilla Médica, Planes de Obra Social y Medicina Prepaga, Precios de Medicina Prepaga y Obra Social, Amplia Cartilla Médica, Centros Médicos de primer nivel y red de odontología">
-   <meta name="author" content="Agencia Comercial de Planes de Medicina Privada y Obra Social - Marzo 2023">
+   <meta name="author" content="Agencia Comercial de Planes de Medicina Privada y Obra Social - Julio 2025">
 	<meta name="keywords" content="Asesoramiento Premedic, Plan por Aportes PMO, Clínica Modelo Morón, Sanatorios de la Trinidad, Obra Social, Asociate con tu Recibo de Sueldo, Cambios de Obra Social con alta inmediata, Premedic, Plan de Obra Social, Medicina Privada, Medicina Prepaga, Amplia Cartilla Médica, Listado de Prestadores, Odontologia, Obra Social Prepaga, Plan por Aportes, Prepagas en Zona Oeste, Prepagas en Capital Federal, Prepagas en Zona Norte, Grupo Premedic, Obra Social Premedic, Cobertura Médica en Zona Oeste, Cobertura Médica en Zona Norte, Obra Social en Zona Oeste "/>
 
         <!-- favicon -->
@@ -26,11 +26,17 @@
         <link href="csspr/colors/defaultd.css" rel="stylesheet" type="text/css" id="color-opt" />
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="./assets/cdn/gritter/gritter.js" type="text/javascript"></script>
-    
+      <script  src="jspr/scripts.js"></script>
         <script  src="jspr/funciones8fa7.js?v=18"></script>
-        <link href="https://cdn.jsdelivr.net/npm/gritter@1.7.4/css/jquery.gritter.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/gritter@1.7.4/js/jquery.gritter.min.js"></script>
-    
+
+        <script>
+      function onSubmit(token) {
+        document.getElementById("formavalian").submit();
+      }
+    </script>
+<!-- Botpress Chat Widget -->
+
+
 		 	  <!-- Global site tag (gtag.js) - Google Analytics -->
 <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-188693479-2">
 </script> -->
@@ -63,10 +69,184 @@
     </style>	
 	
 	 
-		
+		   <style>
+
+        /* Chat Widget Styling */
+        #chat-widget-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        #chat-widget-header {
+            background: #854fff;
+            color: white;
+            padding: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+        #chat-widget-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        /* Increased spacing between messages */
+        #chat-widget-body p {
+            margin-bottom: 15px; /* Adjust spacing between messages */
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+        #chat-widget-footer {
+            padding: 12px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+        }
+        #chat-widget-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+        #chat-widget-send {
+            background: #854fff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        /* Make the chat bubble a perfect circle */
+        #chat-widget-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #854fff;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+    </style>
     </head>
 
     <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="67">
+        <!-- Chat Widget Button -->
+    <button id="chat-widget-button">💬</button>
+
+    <!-- Chat Widget -->
+    <div id="chat-widget-container">
+        <div id="chat-widget-header">
+            <span>Chat</span>
+            <button onclick="closeChatWidget()">✖</button>
+        </div>
+        <div id="chat-widget-body">
+            <p style="margin-bottom: 20px;"><strong>Hola 👋, cómo puedo ayudarte?</strong></p>
+        </div>
+        <div id="chat-widget-footer">
+            <input type="text" id="chat-widget-input" placeholder="Escribe tu mensaje...">
+            <button id="chat-widget-send">enviar</button>
+        </div>
+    </div>
+
+    <!-- Chat Widget Script -->
+    <script>
+        window.ChatWidgetConfig = {
+            webhook: {
+                url: 'https://webhook.tuchat.com.ar/webhook/536dbd1c-4d84-4ffe-af8a-4d2157b15344/chat',
+                route: 'general'
+            },
+            style: {
+                primaryColor: '#854fff',
+                secondaryColor: '#6b3fd4',
+                position: 'right',
+                backgroundColor: '#ffffff',
+                fontColor: '#333333'
+            }
+        };
+
+        // Function to generate or retrieve a unique chat ID
+        function getChatId() {
+            let chatId = sessionStorage.getItem("chatId");
+            if (!chatId) {
+                chatId = "chat_" + Math.random().toString(36).substr(2, 9); // Unique ID
+                sessionStorage.setItem("chatId", chatId);
+            }
+            return chatId;
+        }
+
+        // Show chat widget and hide bubble
+        document.getElementById("chat-widget-button").addEventListener("click", function() {
+            document.getElementById("chat-widget-container").style.display = "flex";
+            document.getElementById("chat-widget-button").style.display = "none";
+        });
+
+        // Close chat widget and show bubble
+        function closeChatWidget() {
+            document.getElementById("chat-widget-container").style.display = "none";
+            document.getElementById("chat-widget-button").style.display = "flex";
+        }
+
+        // Send message to n8n webhook
+        document.getElementById("chat-widget-send").addEventListener("click", function() {
+            let message = document.getElementById("chat-widget-input").value;
+            if (message.trim() === "") return;
+
+            let chatBody = document.getElementById("chat-widget-body");
+            let newMessage = document.createElement("p");
+            newMessage.textContent = message;
+            newMessage.style.color = "#333";
+            newMessage.style.background = "#f1f1f1";
+            chatBody.appendChild(newMessage);
+
+            let chatId = getChatId(); // Retrieve the session chat ID
+
+            fetch(window.ChatWidgetConfig.webhook.url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chatId: chatId,  // Attach chat ID for memory tracking
+                    message: message,
+                    route: window.ChatWidgetConfig.webhook.route
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let botMessage = document.createElement("p");
+                botMessage.innerHTML = data.output || "Sorry, I couldn't understand that.";
+                botMessage.style.color = "#fff";
+                botMessage.style.background = "#854fff";
+                botMessage.style.marginTop = "10px";
+                chatBody.appendChild(botMessage);
+            })
+            .catch(error => console.error("Error:", error));
+
+            document.getElementById("chat-widget-input").value = "";
+        });
+    </script>
+
         <!-- start navbar -->
         <nav class="navbar navbar-expand-lg fixed-top navbar-light border-bottom-0" id="navbar">
             <div class="container">
@@ -624,7 +804,7 @@ y muchos más...
 									  <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>SIN coseguros en consultas Pediátricas, Clínicas y Ginecológicas</p>
                                      <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Asistencia al Viajero Nacional  </p>
                             </div>
-                            <h5 class="fw-semibold my-4 py-2 preciop" style="font-size:2.3em;line-height:12px;"><span  class="fw-normal fs-14">desde<br></span><br><sup>$</sup>45.917<br> <span class="fw-normal fs-14" ><br>por mes / por persona <br><span style="font-size:0.8em;">*20% de descuento incluido adhiriéndose al débito automático con TC.</span></span><BR></h5> 
+                            <h5 class="fw-semibold my-4 py-2 preciop" style="font-size:2.3em;line-height:12px;"><span  class="fw-normal fs-14">desde<br></span><br><sup>$</sup>52.574<br> <span class="fw-normal fs-14" ><br>por mes / por persona<span style="font-size:0.8em;"> (h/29a)</span><br><span style="font-size:0.8em;">*20% de descuento incluido adhiriéndose al débito automático con TC.</span></span><BR></h5> 
                              
                            <a href="#" class=" botond" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Quiero Asesoramiento 
@@ -635,18 +815,18 @@ y muchos más...
                         <div class="price-box border rounded bg-white p-5">
                             <h4 class="fw-normal text-dark mb-2 titplan" title="Plan 300 Premedic">Plan 300</h4>
                             <p class="text-muted fs-14">Cobertura médica con la Red de Prestadores más amplia.</p>
-                            <div class="mt-4 pt-2 desclist">
                                  <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Las principales Clínicas y Sanatorios</p>
 <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Más de 5000 profesionales</p>
-<p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Más de 400 Centros Médicos  </p>								  
-								  <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Red Odontológica Propia</p>
+<p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Más de 400 Centros Médicos  </p>                 
+                  <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Red Odontológica Propia</p>
                                      <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Emergencias Médicas sin cargo</p>
                                      <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Médico por Videollamada las 24 hs</p>
                                     <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Descuentos en Farmacias</p>
-									  <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Consultas Médicas SIN Coseguros </p>
+                    <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Consultas Médicas SIN Coseguros </p>
+                            <div class="mt-4 pt-2 desclist">
                                      <p class="text-dark"><span class="fs-22 me-1 align-middle text-primary icon">▹</span>Asistencia al Viajero Nacional e Internacional  </p>
                             </div>
-							 <h5 class="fw-semibold my-4 py-2 preciop" style="font-size:2.3em;line-height:12px;"><span  class="fw-normal fs-14">desde<br></span><br><sup>$</sup>67.077<br> <span class="fw-normal fs-14" ><br>por mes / por persona <br><span style="font-size:0.8em;">*20% de descuento incluido adhiriéndose al débito automático con TC.</span></span><BR></h5> 
+							 <h5 class="fw-semibold my-4 py-2 preciop" style="font-size:2.3em;line-height:12px;"><span  class="fw-normal fs-14">desde<br></span><br><sup>$</sup>76.800<br> <span class="fw-normal fs-14" ><br>por mes / por persona<span style="font-size:0.8em;"> (h/29a)</span><br><span style="font-size:0.8em;">*20% de descuento incluido adhiriéndose al débito automático con TC.</span></span><BR></h5> 
                              
                            <a href="#" class=" botond" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Quiero Asesoramiento 
@@ -890,7 +1070,7 @@ tu Cobertura Médica / Obra Social<br> bajando tus costos</b></h2>
                     <div class="col-lg-4 col-sm-6"> 
                             <img src="imagespr/premedicb.svg" alt="" height="66" />
                         
-                       <p class="mt-4">Agente Comercial Oficial de Grupo Premedic <br>Copyrights © 2023 Todos los derechos reservados | <a href="politica_de_privacidad.html" style="color:rgba(255,255,255,0.4);font-size:0.9em;">  Política de Privacidad</a>
+                       <p class="mt-4">Agente Comercial Oficial de Grupo Premedic <br>Copyrights © 2025 Todos los derechos reservados | <a href="politica_de_privacidad.html" style="color:rgba(255,255,255,0.4);font-size:0.9em;">  Política de Privacidad</a>
 						
 					<p style="font-size:11px;">	Superintendencia de Servicios de Salud
 Órgano Control de Obras Sociales y entidades de Medicina Prepaga 0800-222-SALUD (72583) | www.sssalud.gob.ar| RNEMP Nº 112172 </p>
@@ -1059,7 +1239,7 @@ tu Cobertura Médica / Obra Social<br> bajando tus costos</b></h2>
                            
 
                             <!-- Enviar -->
-                           <button type="submit" id="enviar" aria-labelledby="Enviar" class=" ctap btn btn-lg btn-block  border-radius mt-4 mb-3" style="font-size:1.3em;" title="Solicitá Asesoramiento">
+                           <button data-callback="onSubmit" type="submit" id="enviar" aria-labelledby="Enviar" class=" ctap btn btn-lg btn-block  border-radius mt-4 mb-3" style="font-size:1.3em;" title="Solicitá Asesoramiento">
                                SOLICITAR ASESORAMIENTO
                            </button>
                            
@@ -1074,6 +1254,8 @@ tu Cobertura Médica / Obra Social<br> bajando tus costos</b></h2>
                            <div class="loader-whats" id="loader-whats" style="display: none;"></div>
 
                        </form>
+
+</p><div class="" aria-hidden="true" id="form-errores"></div>
                    <!-- end form -->
                     </div>
                 </div>
@@ -1093,6 +1275,7 @@ tu Cobertura Médica / Obra Social<br> bajando tus costos</b></h2>
 		<script src="jspr/edags.js"></script>
 		
 		 
+  
 		 
 		<!-- end form -->
 		
@@ -1158,80 +1341,26 @@ if(select.value=='RelDep'){
        
            </script>
            
-           <script>   
-               $(document).ready(function() {
-                       
-            
-               
-                     // Custom notification function (replace gritter)
-                     function showNotification(message, type = 'error') {
-                       var className = (type === 'error') ? 'gritter-error' : 'gritter-success';  // Asumiendo que es un error o éxito
-                       $.gritter.add({
-                           title: type === 'error' ? 'Error' : 'Éxito',
-                           text: message,
-                           class_name: className
-                       });
-                   }
-               
-                   $("#enviar").click(function(event) {
-                       var errors = [];
-                       event.preventDefault();
-                       $("#enviar").attr('disabled', true);
-               
-                       // Correct object structure for form data
-                       var datawh = {
-                   'nombre': $.trim($('#Nombre').val()),
-                   'edad': ($.trim($('#Edad').children("option:selected").val()) == "Edad") ? "" : $.trim($('#Edad').children("option:selected").val()),
-       
-                   'localidad': ($.trim($('#Localidad').children("option:selected").val()) == "Localidad") ? "" : $.trim($('#Localidad').children("option:selected").val()),
-       
-                   'telefono': $.trim($('#Telefono').val()),
-                   'tipo': ($.trim($('#tipoAfiliacion').children("option:selected").val()) == "Tipo de Afiliación") ? "" : $.trim($('#tipoAfiliacion').children("option:selected").val()),
-                   'sueldo': $.trim($('#Sueldo').val()),
-       
-       
-               };
-               var input=  document.getElementById('Telefono');
-input.addEventListener('input',function(){
-  if (this.value.length > 10) 
-     this.value = this.value.slice(10,10); 
-})
-                       // Validation checks
-                       if (datawh.nombre == "") {
-                           errors.push("Su <b>nombre</b> es requerido");
-                       }
-                       if (datawh.edad == "") {
-                           errors.push("Su <b>edad</b> es requerida");
-                       }
-                       if (datawh.localidad == "") {
-                           errors.push("Su <b>residencia</b> es requerida");
-                       }
-                    // Validación del teléfono (solo números y exactamente 10 dígitos)
-            if (datawh.localidad == "") {
-                errors.push("El <b>Teléfono</b> debe contener exactamente 10 cifras numéricas.");
-            }
-                       
-                       if (datawh.tipo == "") {
-                           errors.push("El <b>tipo de ingreso</b> es requrido");
-                       }
 
-                       if (datawh.provincia == "") {
-                           errors.push("Su <b>provincia</b> es obligatoria");
-                       }
-                
-               
-                       if (errors.length > 0) {
-                           showNotification(errors.join("<br>"));
-                           $("#enviar").attr('disabled', false);
-                       } else {
-                           finalizar('disabled')
-               
-                       }
-                   });
-               
-               });
-               </script>
- 
+   <script>
+    jQuery(document).ready(function($) {
+        // Selecciona el campo de código de área y aplica el límite de 4 dígitos
+        const telefono = $('#Telefono'); // Asegúrate de que el ID coincide con el de tu campo de teléfono
+
+   
+
+        // Selecciona el campo de teléfono y aplica el límite de 8 caracteres
+        if (telefono.length) {
+            telefono.attr('type', 'number'); // Asegura que el campo sea numérico
+            telefono.attr('maxlength', '10'); // Límite máximo de 8 caracteres
+            telefono.on('input', function() {
+                if (telefono.val().length > 10) {
+                    telefono.val(telefono.val().slice(0, 10));
+                }
+            });
+        }
+    });
+</script>
 
 <!-- Mirrored from www.premedicmedicinaprivada.com.ar/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 05 Feb 2025 17:23:48 GMT -->
 </html>

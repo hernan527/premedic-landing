@@ -1,13 +1,14 @@
 
 function finalizar(aaa) {
-  var form = document.querySelector('form');
-  var boton = form.querySelector('#enviar');
-var loader = form.querySelector('.loader-whats');
+            var form = document.querySelector('form');
 
-  // Deshabilitar el bot車n de env赤o y mostrar el loader
-  boton.disabled = true;
-  loader.style.display = 'block';
-
+    var boton = form.querySelector('#enviar');
+  var loader = form.querySelector('.loader-whats');
+        // Correct object structure for form data
+            // Deshabilitar el bot車n de env赤o y mostrar el loader
+    boton.disabled = true;
+    loader.style.display = 'block';
+console.log('hola 1');
         // Correct object structure for form data
         var datawh = {
           'nombre': $.trim($('#Nombre').val()),
@@ -20,18 +21,18 @@ var loader = form.querySelector('.loader-whats');
       
 const xhr = new XMLHttpRequest();
 
-xhr.open('POST', 'https://n8nwebhook.tuchat.com.ar/webhook/34c9dbfb-8469-4a95-8bfc-1407a7813025');
-
+xhr.open('POST', 'https://n8n.tuchat.com.ar/webhook-test/005fbe4d-97ce-46a7-9b2a-8cae75fef6e6');
+console.log('hola 2');
 
 xhr.onload = function () {
   if (xhr.status === 200) {
     // boton.value = 'ENVIO EXITOSO!';
     loader.style.display = 'none';
     $('#formavalian')[0].reset(); // Resetear el formulario
-
+console.log('hola 3');
     // // Redirigir a la p芍gina de agradecimiento despu谷s de 3 segundos
     setTimeout(function() {
-      window.location.href = 'https://premedic-landing.web.app';
+      $("#exampleModal").attr('data-bs-dismiss', true);
     }, 3000);
   } else {
     // Rehabilitar el bot車n y ocultar el loader en caso de error
@@ -39,7 +40,7 @@ xhr.onload = function () {
     alert('Error en en el envío');
     loader.style.display = 'none';
     boton.disabled = false;
-
+console.log('hola 4');
     $('#formavalian')[0].reset(); // Resetear el formulario
   }
 
